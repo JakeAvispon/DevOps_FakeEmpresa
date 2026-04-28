@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - echo "Instalando dependencias..."
+      - pip install -r requirements.txt
+  build:
+    commands:
+      - echo "Iniciando Pipeline de Datos..."
+      - echo "1. Generando catálogo inicial (50+ elementos)..."
+      - python scripts/pokeGenerator.py
+      - echo "2. Cargando a la base de datos DynamoDB..."
+      - python scripts/dynamo_loader.py
+      - echo "3. Procesando datos y subiendo a S3..."
+      - python scripts/procesador_s3.py
+  post_build:
+    commands:
+      - echo "Pipeline completado con éxito. Datos disponibles para Finanzas."

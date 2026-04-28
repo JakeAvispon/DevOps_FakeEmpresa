@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokédex Nacional Multigeneracional</title>
+    <style>
+        :root {
+            --dex-red: #dc0a2d;
+            --dex-dark: #222224;
+            --dex-screen: #dedede;
+            --dex-blue: #28aafd;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dex-dark);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 1000px;
+            background: var(--dex-red);
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            border: 4px solid #8b0000;
+            border-bottom: 10px solid #555;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .camera-lens {
+            position: absolute;
+            top: 15px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, #28aafd 30%, #005588 80%);
+            border: 5px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .search-container {
+            background: #444;
+            padding: 15px;
+            width: 100%;
+            max-width: 1000px;
+            box-sizing: border-box;
+            display: flex;
+            gap: 10px;
+            border-left: 4px solid #8b0000;
+            border-right: 4px solid #8b0000;
+        }
+        .form-group {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        input[type="text"], select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 2px solid #222;
+            font-weight: bold;
+        }
+        input[type="text"] { flex-grow: 1; }
+        
+        .btn-scan {
+            padding: 10px 20px;
+            background: var(--dex-blue);
+            color: white;
+            border: 2px solid #005588;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+        }
+        .btn-scan:hover { background: #5bc0de; }
+        
+        .btn-clear {
+            padding: 10px 20px;
+            background: #555;
+            color: white;
+            border: 2px solid #333;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            transition: 0.2s;
+        }
+        .btn-clear:hover { background: #777; }
+        
+        .stats-bar {
+            width: 100%;
+            max-width: 1000px;
+            background: #111;
+            padding: 10px;
+            text-align: right;
+            box-sizing: border-box;
+            border-left: 4px solid #8b0000;
+            border-right: 4px solid #8b0000;
+            color: #aaa;
+            font-size: 0.9em;
+        }
+
+        .pokemon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            width: 100%;
+            max-width: 1000px;
+            background: var(--dex-screen);
+            padding: 20px;
+            box-sizing: border-box;
+            border-radius: 0 0 15px 15px;
+            border: 4px solid #8b0000;
+            border-top: none;
+        }
+        .pokemon-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            color: #333;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            border: 2px solid #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .pokemon-card:hover { transform: translateY(-5px); border-color: var(--dex-blue); }
+        .pkmn-id { color: #888; font-weight: bold; font-size: 0.9em; }
+        .pkmn-name { font-size: 1.2em; font-weight: bold; margin: 5px 0 10px 0; text-transform: capitalize; }
+        .pkmn-gen { font-size: 0.8em; color: #666; margin-top: 10px; }
+        
+        .pkmn-sprite {
+            width: 96px;
+            height: 96px;
+            image-rendering: pixelated;
+            margin-bottom: 5px;
+        }
+        
+        .type-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: white;
+            margin: 2px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .Fuego { background: #F08030; } .Agua { background: #6890F0; }
+        .Planta { background: #78C850; } .Eléctrico { background: #F8D030; color: #333; text-shadow: none; }
+        .Normal { background: #A8A878; } .Volador { background: #A890F0; }
+        .Bicho { background: #A8B820; } .Veneno { background: #A040A0; }
+        .Roca { background: #B8A038; } .Tierra { background: #E0C068; }
+        .Lucha { background: #C03028; } .Hielo { background: #98D8D8; color: #333; text-shadow: none; }
+        .Psíquico { background: #F85888; } .Fantasma { background: #705898; }
+        .Dragón { background: #7038F8; } .Siniestro { background: #705848; }
+        .Acero { background: #B8B8D0; color: #333; text-shadow: none;} .Hada { background: #EE99AC; color: #333; text-shadow: none;}
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="camera-lens"></div>
+        <h1>Pokédex Nacional</h1>
+        <p style="margin:0; color:#ffcccc;">Sistema de Búsqueda y Clasificación</p>
+    </div>
+
+    <div class="search-container">
+        <form class="form-group" method="POST">
+            <input type="text" name="busqueda" placeholder="Buscar por Nombre o Número (ej. 25, Charizard)..." value="{{ busqueda }}">
+            
+            <select name="generacion">
+                <option value="todas" {% if filtro_gen == 'todas' %}selected{% endif %}>Todas las Gen.</option>
+                <option value="1" {% if filtro_gen == '1' %}selected{% endif %}>Generación 1</option>
+                <option value="2" {% if filtro_gen == '2' %}selected{% endif %}>Generación 2</option>
+                <option value="3" {% if filtro_gen == '3' %}selected{% endif %}>Generación 3</option>
+                <option value="4" {% if filtro_gen == '4' %}selected{% endif %}>Generación 4</option>
+                <option value="5" {% if filtro_gen == '5' %}selected{% endif %}>Generación 5</option>
+                <option value="6" {% if filtro_gen == '6' %}selected{% endif %}>Generación 6</option>
+                <option value="7" {% if filtro_gen == '7' %}selected{% endif %}>Generación 7</option>
+                <option value="8" {% if filtro_gen == '8' %}selected{% endif %}>Generación 8</option>
+                <option value="9" {% if filtro_gen == '9' %}selected{% endif %}>Generación 9</option>
+            </select>
+
+            <select name="tipo">
+                <option value="todos" {% if filtro_tipo == 'todos' %}selected{% endif %}>Todos los Tipos</option>
+                {% for t in tipos_disponibles %}
+                    <option value="{{ t }}" {% if filtro_tipo == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+            
+            <button type="submit" class="btn-scan">Escanear</button>
+            <a href="/" class="btn-clear" title="Reiniciar búsqueda">Limpiar</a>
+        </form>
+    </div>
+
+    <div class="stats-bar">
+        Pokémon encontrados: <strong style="color: white;">{{ resultados|length }}</strong>
+    </div>
+
+    <div class="pokemon-grid">
+        {% for pkmn in resultados %}
+        <div class="pokemon-card">
+            {% if pkmn['GBA_Sprite_URL'] %}
+                <img src="{{ pkmn['GBA_Sprite_URL'] }}" alt="{{ pkmn['Nombre'] }}" class="pkmn-sprite">
+            {% else %}
+                <div class="pkmn-sprite" style="background-color: #eee; display: flex; align-items: center; justify-content: center; color: #aaa;">?</div>
+            {% endif %}
+            
+            <div class="pkmn-id">#{{ "%04d"|format(pkmn['ID']|int) }}</div>
+            <div class="pkmn-name">{{ pkmn['Nombre'] }}</div>
+            <div>
+                <span class="type-badge {{ pkmn['Tipo1'] }}">{{ pkmn['Tipo1'] }}</span>
+                {% if pkmn['Tipo2'] %}
+                    <span class="type-badge {{ pkmn['Tipo2'] }}">{{ pkmn['Tipo2'] }}</span>
+                {% endif %}
+            </div>
+            <div class="pkmn-gen">Gen {{ pkmn['Generacion'] }}</div>
+        </div>
+        {% else %}
+        <div style="grid-column: 1 / -1; text-align: center; color: #555; padding: 40px;">
+            <h3 style="color:#8b0000;">No se encontraron datos en la Pokédex.</h3>
+            <p>Intenta cambiar los parámetros de búsqueda.</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

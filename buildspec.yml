@@ -19,3 +19,8 @@ phases:
   post_build:
     commands:
       - echo "Pipeline completado con éxito. Datos disponibles para Finanzas."
+
+artifacts:
+  files:
+    - '**/*'
+  name: BuildArtif

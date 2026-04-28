@@ -4,7 +4,7 @@ import time
 from datetime import datetime
 from botocore.exceptions import ClientError
 
-REGION = 'us-east-1' # <-- Cambia esto a tu región de AWS
+REGION = 'us-east-2' # <-- Cambia esto a tu región de AWS
 dynamodb = boto3.resource('dynamodb', region_name=REGION)
 client = boto3.client('dynamodb', region_name=REGION)
 table_name = "PokemonFinance"

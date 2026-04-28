@@ -3,7 +3,7 @@ import boto3
 from datetime import datetime
 
 REGION = 'us-east-1'
-BUCKET_NAME = 'tu-bucket-finanzas-pokemon-2026' # <-- ¡CÁMBIA ESTO por el nombre de tu bucket!
+BUCKET_NAME = 'bucket-finanzas-pokemon' # <-- ¡CÁMBIA ESTO por el nombre de tu bucket!
 dynamodb = boto3.resource('dynamodb', region_name=REGION)
 s3 = boto3.client('s3', region_name=REGION)
 

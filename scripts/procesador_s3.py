@@ -8,7 +8,7 @@ dynamodb = boto3.resource('dynamodb', region_name=REGION)
 s3 = boto3.client('s3', region_name=REGION)
 
 def main():
-    tipo_filtro = "Fuego" # Puedes cambiarlo o pasarlo por argumentos
+    tipo_filtro = "Agua" # Puedes cambiarlo o pasarlo por argumentos
     table_name = "PokemonFinance"
     output_file = f"reporte_tipo_{tipo_filtro.lower()}.txt"
     

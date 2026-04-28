@@ -36,7 +36,7 @@ def cargar_datos_pokemon():
             datos_json = json.load(f)
             
             # Cargamos solo 50 elementos para hacer la prueba rápida (cumple el requisito)
-            for entrada in datos_json[:50]: 
+            for entrada in datos_json[:151]: 
                 
                 # Mapeo del JSON integrando los atributos de auditoría solicitados
                 item = {
@@ -45,7 +45,7 @@ def cargar_datos_pokemon():
                     "Tipo1": entrada["Tipo1"],
                     "Generacion": entrada["Generacion"],
                     "NuevoAtributo": "Validado", # Requisito: Agregar nuevos atributos
-                    "ModificadoPor": "Pipeline_Admin", # Requisito: Quien hizo el cambio
+                    "ModificadoPor": "User_001", # Requisito: Quien hizo el cambio
                     "FechaModificacion": ahora.strftime("%Y-%m-%d"), # Requisito: Cuando
                     "HoraModificacion": ahora.strftime("%H:%M:%S")   # Requisito: Hora
                 }

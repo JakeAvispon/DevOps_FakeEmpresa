@@ -35,8 +35,8 @@ def cargar_datos_pokemon():
         with open("pokemon.json", "r", encoding='utf-8') as f:
             datos_json = json.load(f)
             
-            # Cargamos solo 50 elementos para hacer la prueba rápida (cumple el requisito)
-            for entrada in datos_json[:151]: 
+            # Cantidad de Pokémon a cargar (puedes ajustar este número para futuros reportes)
+            for entrada in datos_json[:386]: 
                 
                 # Mapeo del JSON integrando los atributos de auditoría solicitados
                 item = {
@@ -45,7 +45,7 @@ def cargar_datos_pokemon():
                     "Tipo1": entrada["Tipo1"],
                     "Generacion": entrada["Generacion"],
                     "NuevoAtributo": "Validado", # Requisito: Agregar nuevos atributos
-                    "ModificadoPor": "User_001", # Requisito: Quien hizo el cambio
+                    "ModificadoPor": "User_002", # Requisito: Quien hizo el cambio
                     "FechaModificacion": ahora.strftime("%Y-%m-%d"), # Requisito: Cuando
                     "HoraModificacion": ahora.strftime("%H:%M:%S")   # Requisito: Hora
                 }

@@ -173,6 +173,18 @@
         .Psíquico { background: #F85888; } .Fantasma { background: #705898; }
         .Dragón { background: #7038F8; } .Siniestro { background: #705848; }
         .Acero { background: #B8B8D0; color: #333; text-shadow: none;} .Hada { background: #EE99AC; color: #333; text-shadow: none;}
+        
+        /* Nueva clase para los datos de auditoría */
+        .audit-info {
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #ccc;
+            font-size: 0.75em;
+            color: #555;
+            width: 100%;
+            text-align: left;
+        }
+        .audit-info span { font-weight: bold; color: #222; }
     </style>
 </head>
 <body>
@@ -234,6 +246,14 @@
                 {% endif %}
             </div>
             <div class="pkmn-gen">Gen {{ pkmn['Generacion'] }}</div>
+
+            {% if pkmn['ModificadoPor'] %}
+            <div class="audit-info">
+                <div><span>Autor:</span> {{ pkmn['ModificadoPor'] }}</div>
+                <div><span>Fecha:</span> {{ pkmn['FechaModificacion'] }} a las {{ pkmn['HoraModificacion'] }}</div>
+            </div>
+            {% endif %}
+
         </div>
         {% else %}
         <div style="grid-column: 1 / -1; text-align: center; color: #555; padding: 40px;">
